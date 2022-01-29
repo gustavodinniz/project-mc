@@ -1,6 +1,7 @@
 package br.com.gustavodiniz.projectmc.entities;
 
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer type;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
