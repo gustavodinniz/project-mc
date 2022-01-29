@@ -1,13 +1,8 @@
 package br.com.gustavodiniz.projectmc;
 
-import br.com.gustavodiniz.projectmc.entities.Category;
-import br.com.gustavodiniz.projectmc.entities.City;
-import br.com.gustavodiniz.projectmc.entities.Product;
-import br.com.gustavodiniz.projectmc.entities.State;
-import br.com.gustavodiniz.projectmc.repositories.CategoryRepository;
-import br.com.gustavodiniz.projectmc.repositories.CityRepository;
-import br.com.gustavodiniz.projectmc.repositories.ProductRepository;
-import br.com.gustavodiniz.projectmc.repositories.StateRepository;
+import br.com.gustavodiniz.projectmc.entities.*;
+import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import br.com.gustavodiniz.projectmc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,41 +26,56 @@ public class ProjectMcApplication implements CommandLineRunner {
     @Autowired
     private CityRepository cityRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ProjectMcApplication.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Category cat1 = new Category(null, "Informática");
-        Category cat2 = new Category(null, "Escritório");
+        Category category1 = new Category(null, "Informática");
+        Category category2 = new Category(null, "Escritório");
 
-        Product p1 = new Product(null, "Computador", 2000.0);
-        Product p2 = new Product(null, "Impressora", 800.0);
-        Product p3 = new Product(null, "Mouse", 80.0);
+        Product product1 = new Product(null, "Computador", 2000.0);
+        Product product2 = new Product(null, "Impressora", 800.0);
+        Product product3 = new Product(null, "Mouse", 80.0);
 
-        cat1.getProducts().addAll(Arrays.asList(p1, p2, p3));
-        cat2.getProducts().addAll(List.of(p2));
+        category1.getProducts().addAll(Arrays.asList(product1, product2, product3));
+        category2.getProducts().addAll(List.of(product2));
 
-        p1.getCategories().addAll(Arrays.asList(cat1));
-        p2.getCategories().addAll(Arrays.asList(cat1, cat2));
-        p3.getCategories().addAll(Arrays.asList(cat1));
+        product1.getCategories().addAll(Arrays.asList(category1));
+        product2.getCategories().addAll(Arrays.asList(category1, category2));
+        product3.getCategories().addAll(Arrays.asList(category1));
 
-        categoryRepository.saveAll(Arrays.asList(cat1, cat2));
-        productRepository.saveAll(Arrays.asList(p1, p2, p3));
+        categoryRepository.saveAll(Arrays.asList(category1, category2));
+        productRepository.saveAll(Arrays.asList(product1, product2, product3));
 
-        State st1 = new State(null, "Minas Gerais");
-        State st2 = new State(null, "São Paulo");
+        State state1 = new State(null, "Minas Gerais");
+        State state2 = new State(null, "São Paulo");
 
-        City ct1 = new City(null, "Uberlândia", st1);
-        City ct2 = new City(null, "São Paulo", st2);
-        City ct3 = new City(null, "Campinas", st2);
+        City city1 = new City(null, "Uberlândia", state1);
+        City city2 = new City(null, "São Paulo", state2);
+        City city3 = new City(null, "Campinas", state2);
 
-        st1.getCities().addAll(Arrays.asList(ct1));
-        st2.getCities().addAll(Arrays.asList(ct2, ct3));
+        state1.getCities().addAll(Arrays.asList(city1));
+        state2.getCities().addAll(Arrays.asList(city2, city3));
 
-        stateRepository.saveAll(Arrays.asList(st1, st2));
-        cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3));
+        stateRepository.saveAll(Arrays.asList(state1, state2));
+        cityRepository.saveAll(Arrays.asList(city1, city2, city3));
+
+        Client client1 = new Client(null, "Maria Silva", "maria@hotmail.com", "36378912377", CustomerType.PHYSICAL_PERSON);
+        client1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+        Address address1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", client1, city1);
+        Address address2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, city2);
+        client1.getAddresses().addAll(Arrays.asList(address1, address2));
+
+        clientRepository.saveAll(Arrays.asList(client1));
+        addressRepository.saveAll(Arrays.asList(address1, address2));
 
     }
 }
