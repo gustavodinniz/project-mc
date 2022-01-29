@@ -1,26 +1,26 @@
 package br.com.gustavodiniz.projectmc.controllers;
 
 import br.com.gustavodiniz.projectmc.entities.Category;
+import br.com.gustavodiniz.projectmc.services.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryController {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Category> list() {
+    @Autowired
+    private CategoryService service;
 
-        Category category = new Category(1, "Informática");
-        Category category2 = new Category(2, "Escritório");
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Category> find(@PathVariable Integer id) {
 
-        List<Category> categoryList = new ArrayList<>();
-        categoryList.add(category);
-        categoryList.add(category2);
-        return categoryList;
+        Category category = service.find(id);
+        return ResponseEntity.ok().body(category);
+
     }
 }
