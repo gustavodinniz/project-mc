@@ -1,5 +1,7 @@
 package br.com.gustavodiniz.projectmc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -12,6 +14,7 @@ public class OrderedItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private OrderedItemPK id = new OrderedItemPK();
 
@@ -31,6 +34,7 @@ public class OrderedItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }

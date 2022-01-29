@@ -1,6 +1,7 @@
 package br.com.gustavodiniz.projectmc.entities;
 
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "t_phone")
     private Set<String> phones = new HashSet<>();
 
+    @JsonBackReference
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
