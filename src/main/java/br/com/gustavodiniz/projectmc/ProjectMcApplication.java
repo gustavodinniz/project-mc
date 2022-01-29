@@ -40,6 +40,9 @@ public class ProjectMcApplication implements CommandLineRunner {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private OrderedItemRepository orderedItemRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(ProjectMcApplication.class, args);
     }
@@ -100,6 +103,19 @@ public class ProjectMcApplication implements CommandLineRunner {
 
         orderRepository.saveAll(Arrays.asList(order1, order2));
         paymentRepository.saveAll(Arrays.asList(payment1, payment2));
+
+        OrderedItem orderedItem1 = new OrderedItem(order1, product1, 0.00, 1, 2000.00);
+        OrderedItem orderedItem2 = new OrderedItem(order1, product3, 0.00, 2, 80.00);
+        OrderedItem orderedItem3 = new OrderedItem(order2, product2, 100.00, 1, 800.00);
+
+        order1.getItems().addAll(Arrays.asList(orderedItem1, orderedItem2));
+        order2.getItems().addAll(Arrays.asList(orderedItem3));
+
+        product1.getItems().addAll(Arrays.asList(orderedItem1));
+        product2.getItems().addAll(Arrays.asList(orderedItem3));
+        product3.getItems().addAll(Arrays.asList(orderedItem2));
+
+        orderedItemRepository.saveAll(Arrays.asList(orderedItem1, orderedItem2, orderedItem3));
 
     }
 }
