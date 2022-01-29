@@ -1,9 +1,13 @@
 package br.com.gustavodiniz.projectmc;
 
 import br.com.gustavodiniz.projectmc.entities.Category;
+import br.com.gustavodiniz.projectmc.entities.City;
 import br.com.gustavodiniz.projectmc.entities.Product;
+import br.com.gustavodiniz.projectmc.entities.State;
 import br.com.gustavodiniz.projectmc.repositories.CategoryRepository;
+import br.com.gustavodiniz.projectmc.repositories.CityRepository;
 import br.com.gustavodiniz.projectmc.repositories.ProductRepository;
+import br.com.gustavodiniz.projectmc.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +24,12 @@ public class ProjectMcApplication implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private StateRepository stateRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ProjectMcApplication.class, args);
@@ -43,6 +53,19 @@ public class ProjectMcApplication implements CommandLineRunner {
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2));
         productRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+        State st1 = new State(null, "Minas Gerais");
+        State st2 = new State(null, "São Paulo");
+
+        City ct1 = new City(null, "Uberlândia", st1);
+        City ct2 = new City(null, "São Paulo", st2);
+        City ct3 = new City(null, "Campinas", st2);
+
+        st1.getCities().addAll(Arrays.asList(ct1));
+        st2.getCities().addAll(Arrays.asList(ct2, ct3));
+
+        stateRepository.saveAll(Arrays.asList(st1, st2));
+        cityRepository.saveAll(Arrays.asList(ct1, ct2, ct3));
 
     }
 }
