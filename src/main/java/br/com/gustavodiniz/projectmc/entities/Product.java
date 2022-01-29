@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "t_product")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,7 +22,7 @@ public class Product implements Serializable {
 
     @JsonBackReference
     @ManyToMany
-    @JoinTable(name = "PRODUCT_CATEGORY",
+    @JoinTable(name = "t_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )

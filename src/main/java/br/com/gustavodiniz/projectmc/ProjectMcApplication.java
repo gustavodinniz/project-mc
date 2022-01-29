@@ -2,12 +2,14 @@ package br.com.gustavodiniz.projectmc;
 
 import br.com.gustavodiniz.projectmc.entities.*;
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import br.com.gustavodiniz.projectmc.entities.enums.PaymentStatus;
 import br.com.gustavodiniz.projectmc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +33,12 @@ public class ProjectMcApplication implements CommandLineRunner {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ProjectMcApplication.class, args);
@@ -76,6 +84,22 @@ public class ProjectMcApplication implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(client1));
         addressRepository.saveAll(Arrays.asList(address1, address2));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Order order1 = new Order(null, simpleDateFormat.parse("30/09/2017 10:32"), client1, address1);
+        Order order2 = new Order(null, simpleDateFormat.parse("10/10/2017 19:32"), client1, address2);
+
+        Payment payment1 = new PaymentByCard(null, PaymentStatus.SETTLED, order1, 6);
+        order1.setPayment(payment1);
+
+        Payment payment2 = new PaymentByTicket(null, PaymentStatus.PENDING, order2, simpleDateFormat.parse("20/10/2017 00:00"), null);
+        order2.setPayment(payment2);
+
+        client1.getOrders().addAll(Arrays.asList(order1, order2));
+
+        orderRepository.saveAll(Arrays.asList(order1, order2));
+        paymentRepository.saveAll(Arrays.asList(payment1, payment2));
 
     }
 }

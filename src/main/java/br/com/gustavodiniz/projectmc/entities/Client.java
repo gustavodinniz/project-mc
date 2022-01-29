@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
+@Table(name = "t_client")
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,8 +26,11 @@ public class Client implements Serializable {
     private List<Address> addresses = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "PHONE")
+    @CollectionTable(name = "t_phone")
     private Set<String> phones = new HashSet<>();
+
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public Client() {
 
@@ -96,6 +100,14 @@ public class Client implements Serializable {
         this.phones = phones;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -108,4 +120,6 @@ public class Client implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
