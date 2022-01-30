@@ -1,28 +1,53 @@
 package br.com.gustavodiniz.projectmc.dto;
 
+import br.com.gustavodiniz.projectmc.services.validation.ClientInsert;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "Mandatory filling")
+    @Length(min = 5, max = 120, message = "The length must be between 5 and 120 characters")
     private String name;
+
+    @NotEmpty(message = "Mandatory filling")
+    @Email(message = "Invalid email")
     private String email;
+
+    @NotEmpty(message = "Mandatory filling")
     private String cpfOrCnpj;
+
     private Integer type;
+
+    @NotEmpty(message = "Mandatory filling")
     private String publicPlace;
+
+    @NotEmpty(message = "Mandatory filling")
     private String number;
+
     private String complement;
+
     private String district;
+
+    @NotEmpty(message = "Mandatory filling")
     private String cep;
 
+    @NotEmpty(message = "Mandatory filling")
     private String phone1;
+
     private String phone2;
+
     private String phone3;
 
     private Integer cityId;
 
-    public ClientNewDTO(){
+    public ClientNewDTO() {
 
     }
 
