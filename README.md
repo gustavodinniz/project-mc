@@ -1,4 +1,4 @@
-Curso Udemy - Spring Boot, Hibernate, REST, JWT
+Curso Udemy - Spring Boot, Hibernate, REST, JWT, Docker, PostgreSQL
 
 ## Temas Propostos
 
