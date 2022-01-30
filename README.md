@@ -1,4 +1,4 @@
-Curso Udemy - Spring Boot, Hibernate, REST, Ionic, JWT, S3, MySQL, MongoDB
+Curso Udemy - Spring Boot, Hibernate, REST, JWT, Docker, PostgreSQL
 
 ## Temas Propostos
 
@@ -8,12 +8,8 @@ Curso Udemy - Spring Boot, Hibernate, REST, Ionic, JWT, S3, MySQL, MongoDB
 - Desenvolvimento em camadas
 - Criação de API REST com serialização JSON
 - Desenvolvimento baseado em casos de uso
-- Autenticação e autorização com token
+- Autenticação e autorização com tokens JWT
 - Envio de emails
-- Armazenamento de imagens com Amazon S3
-- Criação de aplicação multiplataforma com Ionic 3
-- Implantação do backend no Heroku
-- Implantação da aplicação na Play Store
 
 ## Diagramas
 
