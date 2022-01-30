@@ -2,6 +2,7 @@ package br.com.gustavodiniz.projectmc.entities;
 
 import br.com.gustavodiniz.projectmc.entities.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "t_payment_by_ticket")
+@JsonTypeName("paymentByTicket")
 public class PaymentByTicket extends Payment {
 
     private static final long serialVersionUID = 1L;

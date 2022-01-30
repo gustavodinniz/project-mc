@@ -1,12 +1,14 @@
 package br.com.gustavodiniz.projectmc.entities;
 
 import br.com.gustavodiniz.projectmc.entities.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_payment_by_card")
+@JsonTypeName("paymentByCard")
 public class PaymentByCard extends Payment {
 
     private static final long serialVersionUID = 1L;
