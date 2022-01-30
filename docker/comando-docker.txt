@@ -1,0 +1,4 @@
+Container School-DB:
+
+sudo docker run --name projectmc-db -p 5437:5432 -e POSTGRES_DB=projectmc-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 postgres:11
+
