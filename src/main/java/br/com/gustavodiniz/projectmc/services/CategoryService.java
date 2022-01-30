@@ -19,4 +19,9 @@ public class CategoryService {
         return category.orElseThrow(() -> new ObjectNotFoundException(
                 "Category with id " + id + " not found, type: " + Category.class.getName()));
     }
+
+    public Category insert(Category category) {
+        category.setId(null);
+        return repository.save(category);
+    }
 }
