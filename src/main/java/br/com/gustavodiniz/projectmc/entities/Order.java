@@ -47,6 +47,14 @@ public class Order implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
+    public double getAmount() {
+        double sum = 0.0;
+        for (OrderedItem orderedItem : items) {
+            sum = sum + orderedItem.getSubTotal();
+        }
+        return sum;
+    }
+
     public Integer getId() {
         return id;
     }
