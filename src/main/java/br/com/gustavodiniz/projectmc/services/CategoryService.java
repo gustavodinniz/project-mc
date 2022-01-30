@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,10 @@ public class CategoryService {
         Optional<Category> category = repository.findById(id);
         return category.orElseThrow(() -> new ObjectNotFoundException(
                 "Category with id " + id + " not found, type: " + Category.class.getName()));
+    }
+
+    public List<Category> findAll() {
+        return repository.findAll();
     }
 
     public Category insert(Category category) {
@@ -41,4 +46,6 @@ public class CategoryService {
         }
 
     }
+
+
 }
