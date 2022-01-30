@@ -3,6 +3,7 @@ package br.com.gustavodiniz.projectmc.services;
 import br.com.gustavodiniz.projectmc.entities.*;
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
 import br.com.gustavodiniz.projectmc.entities.enums.PaymentStatus;
+import br.com.gustavodiniz.projectmc.entities.enums.Profile;
 import br.com.gustavodiniz.projectmc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -107,14 +108,22 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(state1, state2));
         cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 
-        Client client1 = new Client(null, "Gustavo Diniz", "gustavodinniz@hotmail.com", "36378912377", CustomerType.PHYSICAL_PERSON, passwordEncoder.encode("123"));
+        Client client1 = new Client(null, "Gustavo Diniz", "gustavodinniz@hotmail.com", "27914356620", CustomerType.PHYSICAL_PERSON, passwordEncoder.encode("123"));
         client1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+
+        Client client2 = new Client(null, "Alberto Chaves", "gustavodinniz66@gmail.com", "11531623697", CustomerType.PHYSICAL_PERSON, passwordEncoder.encode("123"));
+        client2.getPhones().addAll(Arrays.asList("999111545", "32322969"));
+        client2.addProfile(Profile.ADMIN);
+
         Address address1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", client1, city1);
         Address address2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, city2);
-        client1.getAddresses().addAll(Arrays.asList(address1, address2));
+        Address address3 = new Address(null, "Avenida Prudente de Morais", "200", "Sala 800", "Cidade Jardim", "38777012", client2, city2);
 
-        clientRepository.saveAll(Arrays.asList(client1));
-        addressRepository.saveAll(Arrays.asList(address1, address2));
+        client1.getAddresses().addAll(Arrays.asList(address1, address2));
+        client2.getAddresses().addAll(Arrays.asList(address3));
+
+        clientRepository.saveAll(Arrays.asList(client1, client2));
+        addressRepository.saveAll(Arrays.asList(address1, address2, address3));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
