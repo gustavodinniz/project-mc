@@ -1,7 +1,12 @@
 package br.com.gustavodiniz.projectmc.services;
 
 import br.com.gustavodiniz.projectmc.dto.ClientDTO;
+import br.com.gustavodiniz.projectmc.dto.ClientNewDTO;
+import br.com.gustavodiniz.projectmc.entities.Address;
+import br.com.gustavodiniz.projectmc.entities.City;
 import br.com.gustavodiniz.projectmc.entities.Client;
+import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import br.com.gustavodiniz.projectmc.repositories.AddressRepository;
 import br.com.gustavodiniz.projectmc.repositories.ClientRepository;
 import br.com.gustavodiniz.projectmc.services.exceptions.DataIntegrityException;
 import br.com.gustavodiniz.projectmc.services.exceptions.ObjectNotFoundException;
@@ -21,6 +26,9 @@ public class ClientService {
     @Autowired
     private ClientRepository repository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     public Client find(Integer id) {
         Optional<Client> client = repository.findById(id);
         return client.orElseThrow(() -> new ObjectNotFoundException(
@@ -38,7 +46,9 @@ public class ClientService {
 
     public Client insert(Client client) {
         client.setId(null);
-        return repository.save(client);
+        client = repository.save(client);
+        addressRepository.saveAll(client.getAddresses());
+        return client;
     }
 
     public Client update(Client client) {
@@ -64,5 +74,40 @@ public class ClientService {
 
     public Client fromDTO(ClientDTO clientDTO) {
         return new Client(clientDTO.getId(), clientDTO.getName(), clientDTO.getEmail(), null, null);
+    }
+
+    public Client fromDTO(ClientNewDTO clientNewDTO) {
+        Client client = new Client(
+                null, clientNewDTO.getName(),
+                clientNewDTO.getEmail(),
+                clientNewDTO.getCpfOrCnpj(),
+                CustomerType.toEnum(clientNewDTO.getType())
+        );
+
+        City city = new City(clientNewDTO.getCityId(), null, null);
+
+        Address address = new Address(
+                null,
+                clientNewDTO.getPublicPlace(),
+                clientNewDTO.getNumber(),
+                clientNewDTO.getComplement(),
+                clientNewDTO.getDistrict(),
+                clientNewDTO.getCep(),
+                client,
+                city
+        );
+
+        client.getAddresses().add(address);
+        client.getPhones().add(clientNewDTO.getPhone1());
+
+        if (clientNewDTO.getPhone2() != null) {
+            client.getPhones().add(clientNewDTO.getPhone2());
+        }
+
+        if (clientNewDTO.getPhone3() != null) {
+            client.getPhones().add(clientNewDTO.getPhone3());
+        }
+
+        return client;
     }
 }

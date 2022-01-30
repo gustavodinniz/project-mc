@@ -1,15 +1,17 @@
 package br.com.gustavodiniz.projectmc.controllers;
 
 import br.com.gustavodiniz.projectmc.dto.ClientDTO;
-import br.com.gustavodiniz.projectmc.entities.Client;
+import br.com.gustavodiniz.projectmc.dto.ClientNewDTO;
 import br.com.gustavodiniz.projectmc.entities.Client;
 import br.com.gustavodiniz.projectmc.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,19 @@ public class ClientController {
         Page<ClientDTO> clientDTOList = clientList.map(ClientDTO::new);
         return ResponseEntity.ok().body(clientDTOList);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO clientNewDTO) {
+        Client client = service.fromDTO(clientNewDTO);
+        client = service.insert(client);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(client.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping(value = "/{id}")
