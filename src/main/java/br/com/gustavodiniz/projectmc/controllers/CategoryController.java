@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,7 +50,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody Category category) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO categoryDTO) {
+        Category category = service.fromDTO(categoryDTO);
         category = service.insert(category);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -61,7 +63,8 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Integer id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Integer id) {
+        Category category = service.fromDTO(categoryDTO);
         category.setId(id);
         category = service.update(category);
         return ResponseEntity.noContent().build();

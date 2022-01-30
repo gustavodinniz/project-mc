@@ -1,5 +1,6 @@
 package br.com.gustavodiniz.projectmc.services;
 
+import br.com.gustavodiniz.projectmc.dto.CategoryDTO;
 import br.com.gustavodiniz.projectmc.entities.Category;
 import br.com.gustavodiniz.projectmc.repositories.CategoryRepository;
 import br.com.gustavodiniz.projectmc.services.exceptions.DataIntegrityException;
@@ -53,6 +54,10 @@ public class CategoryService {
             throw new DataIntegrityException("Cannot delete a category that has products.");
         }
 
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO){
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 
 
