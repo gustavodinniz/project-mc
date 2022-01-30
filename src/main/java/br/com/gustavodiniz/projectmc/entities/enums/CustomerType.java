@@ -2,8 +2,8 @@ package br.com.gustavodiniz.projectmc.entities.enums;
 
 public enum CustomerType {
 
-    PHYSICAL_PERSON(1, "Pessoa Física"),
-    LEGAL_PERSON(2, "Pessoa Jurídica");
+    PHYSICAL_PERSON(1, "Physical Person"),
+    LEGAL_PERSON(2, "Legal Person");
 
     private Integer code;
     private String description;

@@ -10,6 +10,7 @@ import br.com.gustavodiniz.projectmc.repositories.PaymentRepository;
 import br.com.gustavodiniz.projectmc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
@@ -30,6 +31,9 @@ public class OrderService {
     private ProductService productService;
 
     @Autowired
+    private ClientService clientService;
+
+    @Autowired
     private OrderedItemRepository orderedItemRepository;
 
     public Order find(Integer id) {
@@ -38,9 +42,11 @@ public class OrderService {
                 "Order with id " + id + " not found, type: " + Order.class.getName()));
     }
 
+    @Transactional
     public Order insert(Order order) {
         order.setId(null);
         order.setInstant(new Date());
+        order.setClient(clientService.find(order.getClient().getId()));
         order.getPayment().setStatus(PaymentStatus.PENDING);
         order.getPayment().setOrder(order);
 
@@ -60,6 +66,7 @@ public class OrderService {
         }
 
         orderedItemRepository.saveAll(order.getItems());
+        System.out.println(order);
         return order;
     }
 }

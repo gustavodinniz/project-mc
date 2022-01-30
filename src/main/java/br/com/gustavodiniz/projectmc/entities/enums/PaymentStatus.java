@@ -2,9 +2,9 @@ package br.com.gustavodiniz.projectmc.entities.enums;
 
 public enum PaymentStatus {
 
-    PENDING(1, "Pendente"),
-    SETTLED(2, "Quitado"),
-    CANCEL(3, "Cancelado");
+    PENDING(1, "Pending"),
+    SETTLED(2, "Settled"),
+    CANCEL(3, "Cancel");
 
     private Integer code;
     private String description;
