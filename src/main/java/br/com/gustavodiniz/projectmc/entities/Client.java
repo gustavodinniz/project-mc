@@ -1,8 +1,7 @@
 package br.com.gustavodiniz.projectmc.entities;
 
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +21,6 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer type;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> addresses = new ArrayList<>();
 
@@ -30,7 +28,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "t_phone")
     private Set<String> phones = new HashSet<>();
 
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
