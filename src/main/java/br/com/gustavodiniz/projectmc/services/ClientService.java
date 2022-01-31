@@ -6,8 +6,11 @@ import br.com.gustavodiniz.projectmc.entities.Address;
 import br.com.gustavodiniz.projectmc.entities.City;
 import br.com.gustavodiniz.projectmc.entities.Client;
 import br.com.gustavodiniz.projectmc.entities.enums.CustomerType;
+import br.com.gustavodiniz.projectmc.entities.enums.Profile;
 import br.com.gustavodiniz.projectmc.repositories.AddressRepository;
 import br.com.gustavodiniz.projectmc.repositories.ClientRepository;
+import br.com.gustavodiniz.projectmc.security.UserSS;
+import br.com.gustavodiniz.projectmc.services.exceptions.AuthorizationException;
 import br.com.gustavodiniz.projectmc.services.exceptions.DataIntegrityException;
 import br.com.gustavodiniz.projectmc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,11 @@ public class ClientService {
     private AddressRepository addressRepository;
 
     public Client find(Integer id) {
+
+        UserSS user = UserService.authenticated();
+        if (user==null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())) {
+            throw new AuthorizationException("Access Denied");
+        }
         Optional<Client> client = repository.findById(id);
         return client.orElseThrow(() -> new ObjectNotFoundException(
                 "Client with id " + id + " not found, type: " + Client.class.getName()));

@@ -1,5 +1,6 @@
 package br.com.gustavodiniz.projectmc.controllers.exceptions;
 
+import br.com.gustavodiniz.projectmc.services.exceptions.AuthorizationException;
 import br.com.gustavodiniz.projectmc.services.exceptions.DataIntegrityException;
 import br.com.gustavodiniz.projectmc.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,11 @@ public class ControllerExceptionHandler {
             error.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<StandardError> objectNotFound(AuthorizationException exception, HttpServletRequest request) {
+        StandardError error = new StandardError(HttpStatus.FORBIDDEN.value(), exception.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 }
