@@ -1,5 +1,6 @@
 package br.com.gustavodiniz.projectmc.services;
 
+import br.com.gustavodiniz.projectmc.entities.Client;
 import br.com.gustavodiniz.projectmc.entities.Order;
 import br.com.gustavodiniz.projectmc.entities.OrderedItem;
 import br.com.gustavodiniz.projectmc.entities.PaymentByTicket;
@@ -7,8 +8,13 @@ import br.com.gustavodiniz.projectmc.entities.enums.PaymentStatus;
 import br.com.gustavodiniz.projectmc.repositories.OrderRepository;
 import br.com.gustavodiniz.projectmc.repositories.OrderedItemRepository;
 import br.com.gustavodiniz.projectmc.repositories.PaymentRepository;
+import br.com.gustavodiniz.projectmc.security.UserSS;
+import br.com.gustavodiniz.projectmc.services.exceptions.AuthorizationException;
 import br.com.gustavodiniz.projectmc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,5 +77,15 @@ public class OrderService {
         orderedItemRepository.saveAll(order.getItems());
         emailService.sendOrderConfirmationEmail(order);
         return order;
+    }
+
+    public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+        UserSS user = UserService.authenticated();
+        if (user == null) {
+            throw new AuthorizationException("Access Denied");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+        Client client = clientService.find(user.getId());
+        return repository.findByClient(client, pageRequest);
     }
 }
