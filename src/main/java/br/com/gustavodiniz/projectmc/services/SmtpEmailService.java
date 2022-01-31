@@ -19,4 +19,5 @@ public class SmtpEmailService extends AbstractEmailService {
         mailSender.send(message);
         LOG.info("Email sent.");
     }
+
 }

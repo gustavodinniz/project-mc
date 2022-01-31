@@ -1,5 +1,6 @@
 package br.com.gustavodiniz.projectmc.services;
 
+import br.com.gustavodiniz.projectmc.entities.Client;
 import br.com.gustavodiniz.projectmc.entities.Order;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,4 +28,19 @@ public abstract class AbstractEmailService implements EmailService {
         return sm;
     }
 
+    @Override
+    public void sendNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage sm = prepareNewPasswordEmail(client, newPass);
+        sendEmail(sm);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Client client, String newPass) {
+        SimpleMailMessage sm = new SimpleMailMessage();
+        sm.setTo(client.getEmail());
+        sm.setFrom(sender);
+        sm.setSubject("New password request");
+        sm.setSentDate(new Date(System.currentTimeMillis()));
+        sm.setText("New password: " + newPass);
+        return sm;
+    }
 }
