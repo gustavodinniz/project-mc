@@ -1,4 +1,4 @@
-Curso Udemy - Spring Boot, Hibernate, REST, JWT, Docker, PostgreSQL
+Curso Udemy - SpringBoot, Hibernate, REST, JWT, Docker, PostgreSQL, Swagger
 
 ## Temas Propostos
 
@@ -10,6 +10,7 @@ Curso Udemy - Spring Boot, Hibernate, REST, JWT, Docker, PostgreSQL
 - Desenvolvimento baseado em casos de uso
 - Autenticação e autorização com tokens JWT
 - Envio de emails
+- Documentação com Swagger
 
 ## Diagramas
 
